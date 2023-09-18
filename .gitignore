@@ -7,7 +7,7 @@
 /.vs/
 /.vscode/
 /.idea/
-
+.vs
 # Ignore build output folders
 bin/
 obj/
