@@ -17,7 +17,7 @@ namespace SqlClientReading
             customer.Email = "mail@mail.com";
 
             //var addedCustomer = cr.AddCustomer(customer);
-
+            //Console.WriteLine("\n------- ADD CUSTOMER -------");
             //if(addedCustomer)
             //{
             //    Console.WriteLine("Added cutomer sucessfully");
@@ -25,6 +25,8 @@ namespace SqlClientReading
             //{
             //    Console.WriteLine("Error, Customer not added");
             //}
+
+            Console.WriteLine("\n------- UPDATE CUSTOMER -------");
 
 
             Console.WriteLine("\n------- ALL CUSTOMERS -------");
@@ -34,7 +36,19 @@ namespace SqlClientReading
             var customerFromDb = cr.GetCustomerById(5);
             Console.WriteLine($"Id: {customerFromDb.Id}, First name: {customerFromDb.FirstName}, ....");
 
+            Console.WriteLine("\n------- CUSTOMER BY PRTIAL NAME -------");
+            var customersFromDb = cr.GetCustomerById(5);
+            cr.GetCustomersByPartialName("ers").ForEach(customer => Console.WriteLine($"Id: {customer.Id}, Full name: {customer.FirstName} {customer.LastName}, ...."));
 
+
+
+
+
+
+            Console.WriteLine("\n------- CUSTOMER COUNTRY COUNT -------");
+            var customerCountryCount = cr.GetCustomerCountryCount();
+
+            customerCountryCount.ForEach(item => Console.WriteLine($"Country: {item.Country}, Number of customers: {item.CustomerCount}"));
         }
     }
 }
