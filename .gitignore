@@ -9,10 +9,10 @@
 /.idea/
 
 # Ignore build output folders
-/bin/
-/obj/
-/[Dd]ebug/
-/[Rr]elease/
+bin/
+obj/
+[Dd]ebug/
+[Rr]elease/
 
 # Ignore NuGet package files
 /packages/
