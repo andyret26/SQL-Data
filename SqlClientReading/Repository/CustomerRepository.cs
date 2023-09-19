@@ -40,11 +40,6 @@ namespace SqlClientReading.Repository
 
         }
 
-        public bool DeleteCustomer(int id)
-        {
-            throw new NotImplementedException();
-        }
-
         public List<Customer> GetAllCustomers()
         {
             List<Customer> customerList = new List<Customer>();

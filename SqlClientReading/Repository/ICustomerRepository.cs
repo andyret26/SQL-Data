@@ -11,8 +11,6 @@ namespace SqlClientReading.Repository
 
 		public bool AddCustomer(Customer customer);
 		public bool UpdateCustomer(Customer customer);
-		public bool DeleteCustomer(int id);
-
 		public List<CustomerCountry> GetCustomerCountryCount();
 		public List<CustomerSpender> GetHighestSpenders();
 		public List<CustomerGenre> CustomerMostPopularGenre(int CustomerId);
