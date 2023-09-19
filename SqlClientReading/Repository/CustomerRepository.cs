@@ -1,6 +1,5 @@
 using Microsoft.Data.SqlClient;
 using SqlClientReading.Models;
-using System.Text.RegularExpressions;
 
 namespace SqlClientReading.Repository
 {
@@ -37,7 +36,6 @@ namespace SqlClientReading.Repository
             }
 
             return success;
-
         }
 
         public List<Customer> GetAllCustomers()
@@ -281,14 +279,83 @@ namespace SqlClientReading.Repository
             throw new NotImplementedException();
         }
 
-        public List<Customer> GetSomeCustomers(int limit, int offset)
+        public List<Customer> GetSomeCustomers(int numberOfRows, int startRow)
         {
-            throw new NotImplementedException();
+            List<Customer> customerList = new List<Customer>();
+            string sql = "SELECT CustomerId, FirstName, LastName, Country, PostalCode, Phone, Email " +
+                "FROM Customer " +
+                "ORDER BY CustomerId " + // Replace with the appropriate column for sorting.
+                "OFFSET @StartRow ROWS " +
+                "FETCH NEXT @NumberOfRows ROWS ONLY;";
+
+            try
+            {
+                using (SqlConnection conn = new SqlConnection(ConnectionHelper.GetConnectionString()))
+                {
+                    conn.Open();
+                    using (SqlCommand cmd = new SqlCommand(sql, conn))
+                    {
+                        cmd.Parameters.AddWithValue("@StartRow", startRow);
+                        cmd.Parameters.AddWithValue("@NumberOfRows", numberOfRows);
+                        using (SqlDataReader reader = cmd.ExecuteReader())
+                        {
+                            while (reader.Read())
+                            {
+                                Customer tempCustomer = new Customer();
+                                tempCustomer.Id = reader.GetInt32(0);
+                                tempCustomer.FirstName = reader.GetString(1);
+                                tempCustomer.LastName = reader.GetString(2);
+                                tempCustomer.Country = reader.IsDBNull(3) ? null : reader.GetString(3);
+                                tempCustomer.PostalCode = reader.IsDBNull(4) ? null : reader.GetString(4);
+                                tempCustomer.Phone = reader.IsDBNull(5) ? null : reader.GetString(5);
+                                tempCustomer.Email = reader.GetString(6);
+
+                                customerList.Add(tempCustomer);
+                            }
+                        }
+                    }
+                }
+            }
+            catch (SqlException ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+            return customerList; ;
         }
 
         public bool UpdateCustomer(Customer customer)
         {
-            throw new NotImplementedException();
+            bool success = false;
+            string sql = "UPDATE Customer " +
+                "SET FirstName = @Firstname, LastName = @LastName, Country = @Country, PostalCode = @PostalCode, Phone = @Phone, Email = @Email " +
+                "WHERE CustomerId = @CustomerId;";
+
+            try
+            {
+                using (SqlConnection conn = new SqlConnection(ConnectionHelper.GetConnectionString()))
+                {
+                    conn.Open();
+                    using (SqlCommand cmd = new SqlCommand(sql, conn))
+                    {
+                        cmd.Parameters.AddWithValue("@FirstName", customer.FirstName);
+                        cmd.Parameters.AddWithValue("@LastName", customer.LastName);
+                        cmd.Parameters.AddWithValue("@Country", customer.Country);
+                        cmd.Parameters.AddWithValue("@PostalCode", customer.PostalCode);
+                        cmd.Parameters.AddWithValue("@Phone", customer.Phone);
+                        cmd.Parameters.AddWithValue("@Email", customer.Email);
+                        cmd.Parameters.AddWithValue("@CustomerId", customer.Id);
+
+                        success = cmd.ExecuteNonQuery() > 0;
+                    }
+                }
+            }
+            catch (SqlException ex)
+            {
+
+                Console.WriteLine(ex.Message);
+            }
+
+            return success;
         }
     }
 }
