@@ -15,6 +15,6 @@ namespace SqlClientReading.Repository
 
 		public List<CustomerCountry> GetCustomerCountryCount();
 		public List<Customer> GetHighestSpenders();
-		public string GetCustomerMostPopularGenre(Customer customer);
+		public List<CustomerGenre> CustomerMostPopularGenre(int CustomerId);
 	}
 }

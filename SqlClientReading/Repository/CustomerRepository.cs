@@ -1,5 +1,6 @@
 using Microsoft.Data.SqlClient;
 using SqlClientReading.Models;
+using System.Text.RegularExpressions;
 
 namespace SqlClientReading.Repository
 {
@@ -196,9 +197,54 @@ namespace SqlClientReading.Repository
             return customerCountryList;
         }
 
-        public string GetCustomerMostPopularGenre(Customer customer)
+        public List<CustomerGenre> CustomerMostPopularGenre(int id)
         {
-            throw new NotImplementedException();
+            List<CustomerGenre> genreList = new List<CustomerGenre>();
+            string sql = "SELECT " +
+                "Genre.Name AS GenreName, " +
+                "COUNT(InvoiceLine.TrackId) AS TrackCount " +
+                "FROM " +
+                "Invoice " +
+                "INNER JOIN " +
+                "InvoiceLine ON Invoice.InvoiceId = InvoiceLine.InvoiceId " +
+                "INNER JOIN " +
+                "Track ON InvoiceLine.TrackId = Track.TrackId " +
+                "INNER JOIN " +
+                "Genre ON Genre.GenreId = Track.GenreId " +
+                "WHERE " +
+                "Invoice.CustomerId = @CustomerId " +
+                "GROUP BY " +
+                "Genre.Name " +
+                "ORDER BY " +
+                "TrackCount DESC;";
+
+            try
+            {
+                using (SqlConnection conn = new SqlConnection(ConnectionHelper.GetConnectionString()))
+                {
+                    conn.Open();
+                    using (SqlCommand cmd = new SqlCommand(sql, conn))
+                    {
+                        cmd.Parameters.AddWithValue("CustomerId", id);
+                        using (SqlDataReader reader = cmd.ExecuteReader())
+                        {
+                            while (reader.Read())
+                            {
+                                var tempCustomerGenre = new CustomerGenre();
+                                tempCustomerGenre.Genre = reader.GetString(0);
+                                tempCustomerGenre.GenreCount = reader.GetInt32(1);
+
+                                genreList.Add(tempCustomerGenre);
+                            }
+                        }
+                    }
+                }
+            }
+            catch (SqlException ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+            return genreList;
         }
 
         public List<Customer> GetHighestSpenders()
