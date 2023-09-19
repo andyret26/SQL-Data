@@ -1,5 +1,8 @@
 namespace SqlClientReading.Models
 {
+    /// <summary>
+    /// Represents a customer entity that is stored in the db.
+    /// </summary>
     public class Customer
     {
         public int Id { get; set; }

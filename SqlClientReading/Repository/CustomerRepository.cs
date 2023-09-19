@@ -3,8 +3,16 @@ using SqlClientReading.Models;
 
 namespace SqlClientReading.Repository
 {
+    /// <summary>
+    /// A repository class for performing CRUD and other operations on customer data in a SQL database.
+    /// </summary>
     public class CustomerRepository : ICustomerRepository
     {
+        /// <summary>
+        /// Adds a new customer to the database.
+        /// </summary>
+        /// <param name="customer">The customer object to be added.</param>
+        /// <returns>True if the customer was added successfully, false otherwise.</returns>
         public bool AddCustomer(Customer customer)
         {
             bool success = false;
@@ -38,6 +46,10 @@ namespace SqlClientReading.Repository
             return success;
         }
 
+        /// <summary>
+        /// Retrieves a list of all customers from the database.
+        /// </summary>
+        /// <returns>A list of Customer objects representing all customers.</returns>
         public List<Customer> GetAllCustomers()
         {
             List<Customer> customerList = new List<Customer>();
@@ -77,6 +89,11 @@ namespace SqlClientReading.Repository
             return customerList;
         }
 
+        /// <summary>
+        /// Retrieves a customer by their unique identifier (ID) from the database.
+        /// </summary>
+        /// <param name="id">The ID of the customer to retrieve.</param>
+        /// <returns>The Customer object if found, or an empty Customer object if not found.</returns>
         public Customer GetCustomerById(int id)
         {
             Customer customer = new Customer();
@@ -116,6 +133,11 @@ namespace SqlClientReading.Repository
             return customer;
         }
 
+        /// <summary>
+        /// Retrieves a list of customers whose names contain a partial name match.
+        /// </summary>
+        /// <param name="partialName">The partial name to search for.</param>
+        /// <returns>A list of Customer objects matching the partial name criteria.</returns>
         public List<Customer> GetCustomersByPartialName(string partialName)
         {
             List<Customer> customerList = new List<Customer>();
@@ -157,6 +179,10 @@ namespace SqlClientReading.Repository
             return customerList;
         }
 
+        /// <summary>
+        /// Retrieves a list of customer countries and the count of customers in each country.
+        /// </summary>
+        /// <returns>A list of CustomerCountry objects representing customer country counts.</returns>
         public List<CustomerCountry> GetCustomerCountryCount()
         {
             List<CustomerCountry> customerCountryList = new List<CustomerCountry>();
@@ -190,6 +216,11 @@ namespace SqlClientReading.Repository
             return customerCountryList;
         }
 
+        /// <summary>
+        /// Retrieves a list of music genres and the count of tracks purchased by a specific customer.
+        /// </summary>
+        /// <param name="id">The ID of the customer to analyze.</param>
+        /// <returns>A list of CustomerGenre objects representing music genre counts for the customer.</returns>
         public List<CustomerGenre> CustomerMostPopularGenre(int id)
         {
             List<CustomerGenre> genreList = new List<CustomerGenre>();
@@ -240,6 +271,10 @@ namespace SqlClientReading.Repository
             return genreList;
         }
 
+        /// <summary>
+        /// Retrieves a list of the highest spending customers in descending order.
+        /// </summary>
+        /// <returns>A list of CustomerSpender objects representing the highest spenders.</returns>
         public List<CustomerSpender> GetHighestSpenders()
         {
             List<CustomerSpender> spenderList = new List<CustomerSpender>();
@@ -279,6 +314,12 @@ namespace SqlClientReading.Repository
             throw new NotImplementedException();
         }
 
+        /// <summary>
+        /// Retrieves a specified number of customers starting from a specific row in the database.
+        /// </summary>
+        /// <param name="numberOfRows">The number of rows to retrieve.</param>
+        /// <param name="startRow">The starting row index for retrieval.</param>
+        /// <returns>A list of Customer objects retrieved based on the specified criteria.</returns>
         public List<Customer> GetSomeCustomers(int numberOfRows, int startRow)
         {
             List<Customer> customerList = new List<Customer>();
@@ -323,6 +364,11 @@ namespace SqlClientReading.Repository
             return customerList; ;
         }
 
+        /// <summary>
+        /// Updates an existing customer's information in the database.
+        /// </summary>
+        /// <param name="customer">The Customer object containing updated information.</param>
+        /// <returns>True if the customer was updated successfully, false otherwise.</returns>
         public bool UpdateCustomer(Customer customer)
         {
             bool success = false;

@@ -2,6 +2,9 @@ using SqlClientReading.Models;
 
 namespace SqlClientReading.Repository
 {
+	/// <summary>
+	/// Interface for the CustomerRepository
+	/// </summary>
 	public interface ICustomerRepository
 	{
 		public  List<Customer> GetAllCustomers();
