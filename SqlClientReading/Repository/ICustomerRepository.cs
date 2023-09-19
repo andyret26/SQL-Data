@@ -14,7 +14,7 @@ namespace SqlClientReading.Repository
 		public bool DeleteCustomer(int id);
 
 		public List<CustomerCountry> GetCustomerCountryCount();
-		public List<Customer> GetHighestSpenders();
+		public List<CustomerSpender> GetHighestSpenders();
 		public List<CustomerGenre> CustomerMostPopularGenre(int CustomerId);
 	}
 }

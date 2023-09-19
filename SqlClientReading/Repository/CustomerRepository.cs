@@ -247,8 +247,42 @@ namespace SqlClientReading.Repository
             return genreList;
         }
 
-        public List<Customer> GetHighestSpenders()
+        public List<CustomerSpender> GetHighestSpenders()
         {
+            List<CustomerSpender> spenderList = new List<CustomerSpender>();
+            string sql = "SELECT CONCAT(Customer.FirstName, ' ', Customer.LastName) AS FullName, SUM(Invoice.Total) AS TotalAmount " +
+                "FROM Customer " +
+                "INNER JOIN Invoice ON Invoice.CustomerId = Customer.CustomerId " +
+                "GROUP BY CONCAT(Customer.FirstName, ' ', Customer.LastName) " +
+                "ORDER BY TotalAmount DESC;";
+
+            try
+            {
+                using (SqlConnection conn = new SqlConnection(ConnectionHelper.GetConnectionString()))
+                {
+                    conn.Open();
+                    using (SqlCommand cmd = new SqlCommand(sql, conn))
+                    {
+                        using (SqlDataReader reader = cmd.ExecuteReader())
+                        {
+                            while (reader.Read())
+                            {
+                                var tempsSpender = new CustomerSpender();
+                                tempsSpender.FullName = reader.GetString(0);
+                                tempsSpender.TotalSpending = reader.GetDecimal(1);
+
+                                spenderList.Add(tempsSpender);
+                            }
+                        }
+                    }
+                }
+            }
+            catch (SqlException ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+            return spenderList;
+
             throw new NotImplementedException();
         }
 

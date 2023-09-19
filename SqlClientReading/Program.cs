@@ -50,10 +50,24 @@ namespace SqlClientReading
 
             customerCountryCount.ForEach(item => Console.WriteLine($"Country: {item.Country}, Number of customers: {item.CustomerCount}"));
 
+
+            Console.WriteLine("\n------- CUSTOMER 5 HIGHEST SPENDERS -------");
+            var spenderList = cr.GetHighestSpenders();
+            int i = 0;
+            foreach (var item in spenderList)
+            {
+                Console.WriteLine($"Full Name: {item.FullName}, Total Spending: {item.TotalSpending}");
+                i++;
+                if (i == 5)
+                {
+                    break;
+                }
+            }
+
             Console.WriteLine("\n------- CUSTOMER POPULAR GENRE -------");
             var customerGenre = cr.CustomerMostPopularGenre(5);
 
-            // If top is two genres has same count display both Else display the top one
+            // If top two genres has same count display both Else display the top one
             if (customerGenre[0].GenreCount == customerGenre[1].GenreCount)
             {
                 Console.WriteLine($"Genre Name: {customerGenre[0].Genre}, Count: {customerGenre[0].GenreCount}");
