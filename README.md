@@ -23,11 +23,12 @@ cd SQL-Data
 Run the `/SqlScripts/AllScripts.sql` in any SQL Software (preferably Sql Server Management Studio)
 
 ### SqlClientReader
-ADD HERE LATER
+Run the [/SqlClientReading/Chinook_SqlServer.sql](/SqlClientReading/Chinook_SqlServer.sql) to create the db with seeded data 
 
-in [/SqlClientReading/Repository/ConnectionHelper.cs](/SqlClientReading/Repository/ConnectionHelper.cs)\
-replace the DataSource value with your database server name.\
-and 
+In [/SqlClientReading/Repository/ConnectionHelper.cs](/SqlClientReading/Repository/ConnectionHelper.cs)\
+replace the DataSource value with your database server name.
+
+Then do the code below
 ```cs
 // in SQL-Data folder
 dotnet run --project ./SqlClientReading/SqlClientReading.csproj
@@ -35,13 +36,10 @@ dotnet run --project ./SqlClientReading/SqlClientReading.csproj
 
 
 ## Structure
-
-CHANGE THIS TO \
 Main file structure
 
 - `SQL-Data/` - Main folder
-  - `SQLsub/` - Contains the main application code
-    -  `SQLsub1/` - Contains C# classes
-       - `SQLsub2/` - Different types of hero classes (Wizard, Archer, etc..)
-    - `SQLsub1/` - Contains C# enums
-  - `SQLsub/` - Tests folder
+  - `SqlClientReading/` - Contains the console applications main files
+    -  `Models/` - Contain data models that represent database entities
+    - `Repository/` - Contains logic and querying for interacting with the DB
+  - `SqlScripts/` - Contains sql scripts that preform CRUD operations and more
