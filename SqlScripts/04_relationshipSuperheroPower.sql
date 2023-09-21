@@ -4,5 +4,5 @@ CREATE TABLE SuperheroPower (
 	PowerId INT,
 	PRIMARY KEY (SuperheroId, PowerId),
 	FOREIGN KEY (SuperheroId) REFERENCES Superhero(Id),
-	FOREIGN KEU (PowerId) REFERENCES Power(Id)
+	FOREIGN KEY (PowerId) REFERENCES Power(Id)
 );

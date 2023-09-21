@@ -1,1 +1,1 @@
-CREATE DATABASESuperheroesDb;
+CREATE DATABASE SuperheroesDb;
